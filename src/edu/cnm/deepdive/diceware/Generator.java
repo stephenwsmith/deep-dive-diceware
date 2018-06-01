@@ -8,7 +8,7 @@ package edu.cnm.deepdive.diceware;
  * Import packages
  */
 
-import java.util.Arrays;
+import java.util.Arrays;  //TODO optimize imports to loose this
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class Generator {
   private static final String NO_DUPLICATESS_ALLOWED = "No Duplicatess Allowed!";
 
   public String[] words;
-  //public Random rng = word;  TODO fix this?
+  public Random rng = Word;  //TODO fix this?
 
   /**
    * begin
@@ -68,11 +68,11 @@ public class Generator {
       }
       this.words = pool.toArray(new String[pool.size()]);
       this.rng = rng;
-    }//TODO finish this
-
     }
+    //TODO finish this
+
 //test for dups allowed, and output if no dupsallowed but dups exist
-    public String[] next ( int numWords, boolean duplicatesAllowed){
+    public String[] next, int numWords, boolean duplicatesAllowed){
       List<String> selection = new LinkedList<>();
       while (selection.size() < numWords) {
         String pick = next();
