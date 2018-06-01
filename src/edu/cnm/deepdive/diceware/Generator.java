@@ -16,7 +16,7 @@ import java.util.Random;
 import java.util.Set;
 
 /**
- *  generate error messages
+ * generate error messages
  */
 
 public class Generator {
@@ -28,11 +28,10 @@ public class Generator {
   private static final String NO_DUPLICATESS_ALLOWED = "No Duplicatess Allowed!";
 
   public String[] words;
-  public Random rng = Word;  //TODO fix this?
+  public Random rng;  //TODO fix this?
 
   /**
    * begin
-   *
    */
 
   public Generator(String[] words, Random rng) {
@@ -49,45 +48,53 @@ public class Generator {
     if (words.length == 0) {
       throw new NegativeArraySizeException(NEG_NUM_MESSAGE);
     }
+
+    //convert  quanitiy of words to lower case, make an array
+    Set<String> pool = new HashSet<>();
+
+    for (String word : words) {
+      word = word.toLowerCase();
+      if (!pool.contains(word)) {
+        pool.add(word);
+      }
+    }
+    this.words = pool.toArray(new String[pool.size()]);
+    this.rng = rng;
+  }
+  public String next()
+  throws NegativeArraySizeException{
+    return words[rng.nextInt(words.length)];
+  }
+
+
+  //test for dups allowed, and output if no dupsallowed but dups exist
+  public String[] next(int numWords, boolean duplicatesAllowed)
+
+  {
     //exception if not enough words given
     if (numWords == 0) {
       throw new IllegalArgumentException(INSUFFICENT_WORDS);
     }
     //exception if no dups are allowed
-    if (!DupicatesAllowed) && numWords > 0;{
+    if (!duplicatesAllowed && numWords > 0) {
       throw new IllegalArgumentException(NO_DUPLICATESS_ALLOWED);
     }
-    //convert  quanitiy of words to lower case, make an array
-    Set<String> pool = new HashSet<>();
-    {
-      for (String word : words) {
-        word = word.toLowerCase();
-        if (!pool.contains(word)) {
-          pool.add(word);
-        }
+    List<String> selection = new LinkedList<>();
+    while (selection.size() < numWords) {
+      String pick = next();
+      if (duplicatesAllowed || !selection.contains(pick)) {
+        selection.add(pick);
       }
-      this.words = pool.toArray(new String[pool.size()]);
-      this.rng = rng;
     }
-    //TODO finish this
-
-//test for dups allowed, and output if no dupsallowed but dups exist
-    public String[] next, int numWords, boolean duplicatesAllowed){
-      List<String> selection = new LinkedList<>();
-      while (selection.size() < numWords) {
-        String pick = next();
-        if (duplicatesAllowed || !selection.contains(pick)) {
-          selection.add(pick);
-        }
-      }
-      return selection.toArray(new String[selection.size()]);
-    }
-//return words if dups are allowed
-    public String[] next ( int numWords){
-
-      return next(numWords, true);
-    }
+    return selection.toArray(new String[selection.size()]);
   }
+
+  //return words if dups are allowed
+  public String[] next(int numWords) {
+
+    return next(numWords, true);
+  }
+}
 
 
 

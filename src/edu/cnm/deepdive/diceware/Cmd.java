@@ -14,38 +14,36 @@ public class Cmd {
 
   private static final int DEFAULT_NUMBER_WORDS = 6;
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws FileNotFoundException {
     int numWords = DEFAULT_NUMBER_WORDS;
     String filename = DEFAULT_FILE_NAME;
     if (args.length > 0) {
       filename = args[0];
-      if (args.length > 1) ;{
+      if (args.length > 1) {
         numWords = Integer.parseInt(args[1]);
       }
-
     }
     String[] words = readWordList(filename);
     Random rng = new SecureRandom();
     Generator generator = new Generator(words, rng);
-    String[] passPhrase =generator.next(numWords);
-    for (String word ; passPhrase; {
-      System.out.print(word + " "));
-
+    String[] passPhrase = generator.next(numWords);
+    for (String word : passPhrase) {
+      System.out.print(word + " ");
     }
   }
 
-private String []readWordList(String filename) {
-    throws FileNotFoundException; {
-
+  private static String[] readWordList(String filename)
+      throws FileNotFoundException {
     try (Scanner scanner = new Scanner(new File(filename))) {
       List<String> words = new LinkedList<>();
-scanner.useDelimiter("\\s*\\d+\\s+");
-while (scanner.hasNext("\\s+")) {
-  String word = scanner.next("\\s+");
-  words.add(word);
-}
-return words.toArray(newString[words.size()]);
+      scanner.useDelimiter("\\s*\\d+\\s+");
+      while (scanner.hasNext("\\S+")) {
+        String word = scanner.next("\\S+");
+        words.add(word);
+      }
+      return words.toArray(new String[words.size()]);
     }
   }
 }
-}
+
+
